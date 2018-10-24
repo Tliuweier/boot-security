@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>月份</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='月份' type='text' name='month' id='month' data-bv-notempty='true' data-bv-notempty-message='month 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>消费类别</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='消费类别' type='text' name='pay' id='pay' data-bv-notempty='true' data-bv-notempty-message='pay 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>支付金额</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='支付金额' type='text' name='paymoney' id='paymoney' data-bv-notempty='true' data-bv-notempty-message='paymoney 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>支付时间</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='支付时间' type='text' name='paytime' id='paytime' data-bv-notempty='true' data-bv-notempty-message='paytime 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>订单号</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='订单号' type='text' name='ordercd' id='ordercd' data-bv-notempty='true' data-bv-notempty-message='ordercd 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>消费者</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='消费者' type='text' name='consumer' id='consumer' data-bv-notempty='true' data-bv-notempty-message='consumer 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>支付方式</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='支付方式' type='text' name='cashier' id='cashier' data-bv-notempty='true' data-bv-notempty-message='cashier 不能为空'>
+				</div>
+			</div>
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='monthPayList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="add()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		    var laydate = layui.laydate;
+            laydate.render({
+				elem:'#paytime',
+                type:'datetime',
+                format :'yyyy-MM-dd HH:mm:ss'
+			})
+		});
+		
+		function add() {
+		    //校验
+//			$('#form').bootstrapValidator();
+//			var bootstrapValidator = $("#form").data('bootstrapValidator');
+//			bootstrapValidator.validate();
+//		    if(!bootstrapValidator.isValid()){
+//			   return;
+//		    }
+		    //数据封装
+		    var formdata = $("#form").serializeObject();
+			console.log(formdata)
+			$.ajax({
+				type : 'post',
+				url : '/monthPays',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
+                        location.href = "monthPayList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>
